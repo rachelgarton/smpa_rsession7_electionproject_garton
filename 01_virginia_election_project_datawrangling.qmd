@@ -325,21 +325,31 @@ Where should we go from here....? Give it a shot...
 
 ```{r}
 
+prez_2020 <- prez_2020 %>% 
+  filter(locality != "TOTALS") %>% 
+  mutate(
+    locality = str_replace(locality, "ARLINGTON COUNTY", "ARLINGTON COUNTY")
+  )
 
+joined_vacomparison <- inner_join(prez_2020, gov_2021_wide, by = c("locality" = "locality_name"))
+
+head(joined_vacomparison)
+```
+
+
+```{r}
+
+joined_vacomparison %>%
+  arrange(youngkin)
 
 ```
 
 
 ```{r}
 
-
-
-```
-
-
-```{r}
-
-
+#save results to file for next step
+saveRDS(joined_vacomparison, here("processed_data", "joined_vacomparison.rds"))
+write_csv(joined_vacomparison, here("processed_data", "joined_vacomparison.csv"))
 
 ```
 
